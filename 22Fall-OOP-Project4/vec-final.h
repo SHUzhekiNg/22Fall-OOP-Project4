@@ -3,6 +3,7 @@
 #ifndef VEC_FINAL_H
 #define VEC_FINAL_H
 
+#include<ctype.h>
 #include "vec-base.h"
 
 template <typename T> class Vector : public VectorBase<T>
@@ -32,82 +33,91 @@ Vector<T>::Vector(int size, const T* x) : VectorBase<T>(size, x)		// 构造函数
 template <typename T>
 void Vector<T>::Output(ostream& out) const
 {
-	if (this->num == 0)
-		out << "()";
-	else
+	out << "(";
+	for (int i = 0; i < this->num; i++)
 	{
-		out << "(" << this->p[0];
-		for (int i = 1; i < this->num; i++)
-			out << ", " << this->p[i];
-		out << ")";
+		out << this->p[i];
+		if (i != this->num - 1)
+			out << ", ";
 	}
+	out << ")";
 }
 
 template <typename T>
-void Vector<T>::Input(istream& in)	// 具有自动扩展容器容量的功能
+void Vector<T>::Input(istream& in)
 {
-	const int M = 1024, N = 1;//1024;	// N取最小值1是为了调试，实际使用时取1024
+	const int MAX_SIZE = 1024;			//能读取最大维数
 	Vector<T> temp;
-	char str[M], ch;				// ch初始化为一个非')'字符即可
-	T buffer[N];
+	char ch = '0';
+	T buffer[MAX_SIZE];
 	int i, j, k;
 
-	in.getline(str, M, '(');		// 过滤掉'('及之前的所有字符
-	while (true)						// 过滤掉左圆括号之后的空白字符
+	while (true)						// 丢弃左圆括号之前的空白字符
 	{
-		ch = in.peek();				// 偷看下一个字符，看是否为空白字符
-		if (ch == ' ' || ch == '\t' || ch == '\n' || ch == '\r')
-			in.get(ch);				// 若是空白字符，则过滤掉（即读取后不用）
+		ch = in.peek();				
+		if (ch == '(') 
+		{
+			in.get(ch);
+			break;
+		}
 		else
-			break;					// 直到遇到非空白字符，结束本while循环
+			in.get(ch);
+	}
+	while (true)						// 丢弃左圆括号之后的空白字符
+	{
+		ch = in.peek();
+		if (isspace(ch))
+			in.get(ch);
+		else
+			break;
 	}
 
-	if (in.peek() == ')')				// 偷看下一个字符，若是')'
+	if (in.peek() == ')')				// 若是')'，向量为空
 	{
-		this->resize(0);			// 将本对象的维数设置成 0 维
-		return;						// 退出本函数，输入为 0 维向量
+		this->resize(0);
+		return;
 	}
 
 	for (k = 0; ch != ')'; k++)
 	{
-		for (i = 0; i < N && ch != ')'; i++)
+		for (i = 0; i < MAX_SIZE && ch != ')'; i++)
 			in >> buffer[i] >> ch;
-		temp.resize(k * N + i);			// 利用了resize函数的"尽量保留了原有数据"的功能
+		temp.resize(k * MAX_SIZE + i);
 		for (j = 0; j < i; j++)
-			temp[k * N + j] = buffer[j];// 利用了方括号运算符
+			temp[k * MAX_SIZE + j] = buffer[j];
 	}
-	*this = temp;					// 利用了赋值运算符（深赋值运算）
+	*this = temp;
 }
 
 template <typename T>
 Vector<T> operator+(const Vector<T>& v1, const Vector<T>& v2) throw(double)
 {
+	Vector<T> ret(v1);
 	if (v1.getsize() != v2.getsize())
-		throw - 1.0;					// 遇到问题时"一抛了之"。将"矛盾上交"由"上级部门"酌情处理
-	Vector<T> result(v1);
-	for (int i = v1.getsize() - 1; i >= 0; i--)// 避免多次调用v1.getsize()函数
-		result[i] += v2[i];			// 利用了方括号运算符
-	return result;
+		throw - 1.0;					
+	for (int i = v1.getsize() - 1; i >= 0; i--)
+		ret[i] += v2[i];			
+	return ret;
 }
 
 template <typename T>
 Vector<T> operator-(const Vector<T>& v1, const Vector<T>& v2) throw(double)
 {
+	Vector<T> ret(v1);
 	if (v1.getsize() != v2.getsize())
-		throw - 1.0;					// 遇到问题时"一抛了之"。将"矛盾上交"由"上级部门"酌情处理
-	Vector<T> result(v1);
-	for (int i = v1.getsize() - 1; i >= 0; i--)// 避免多次调用v1.getsize()函数
-		result[i] -= v2[i];			// 利用了方括号运算符
-	return result;
+		throw - 1.0;					
+	for (int i = v1.getsize() - 1; i >= 0; i--)
+		ret[i] -= v2[i];			
+	return ret;
 }
 
 template <typename T>
 Vector<T> operator*(const T& x, const Vector<T>& v)
 {
-	Vector<T> result(v);
+	Vector<T> ret(v);
 	for (int i = v.getsize() - 1; i >= 0; i--)
-		result[i] = x * v[i];
-	return result;
+		ret[i] = x * v[i];
+	return ret;
 }
 
 template <typename T>
@@ -119,32 +129,37 @@ Vector<T> operator*(const Vector<T>& v, const T& x)
 template <typename T>
 Vector<T>& Vector<T>::operator+=(const Vector<T>& v) throw(double)
 {
-	return *this = *this + v;
+	*this = *this + v;
+	return *this;
 }
 
 template <typename T>
 Vector<T>& Vector<T>::operator-=(const Vector<T>& v) throw(double)
 {
-	return *this = *this - v;
+	*this = *this - v;
+	return *this;
 }
 
 template <typename T>
 Vector<T>& Vector<T>::operator*=(const T& x)
 {
-	return *this = x * (*this);
+	*this = x * (*this);
+	return *this;
 }
 
-//Done
 template <typename T>
 bool operator==(const Vector<T>& v1, const Vector<T>& v2)
 {
-	int i, n1 = v1.getsize(), n2 = v2.getsize();
-	for (i = 0; i < n1 && i < n2 && v1[i] == v2[i]; i++)
-		;
-	if (i < n1 || i < n2)
-		return false;
-	else
-		return true;
+	bool ret = 1;
+	int i, num1 = v1.getsize(), num2 = v2.getsize();
+	if (num1 != num2)return 0;
+	for (i = 0; i < num1; i++)
+		if (v1[i] != v2[i])
+		{
+			ret = 0;
+			break;
+		}
+	return ret;
 }
 
 template <typename T>
@@ -154,25 +169,34 @@ bool operator!=(const Vector<T>& v1, const Vector<T>& v2)
 }
 
 template <typename T>
-void Vector<T>::resize(int size)			// 指定向量的维数（尽量保留原有的数据）
+void Vector<T>::resize(int size)			
 {
-	if (size < 0 || size == this->num)
-		return;
+	if (size < 0 || size == this->num);
 	else if (size == 0)
 	{
-		if (this->p != NULL) delete[] this->p;
-		this->p = NULL;
+		if (this->p != nullptr) delete[] this->p;
+		this->p = nullptr;
 		this->num = 0;
 	}
 	else
 	{
 		T* temp = this->p;
 		this->p = new T[size];
-		for (int i = 0; i < size; i++)
-			this->p[i] = (i < this->num) ? temp[i] : 0;	// 尽量保留原有数据
+		if (size > this->num)
+		{
+			for (int i = 0; i < num; i++)
+				this->p[i] = temp[i];
+			for (int i = num; i < size; i++)
+				this->p[i] = 0;
+		}
+		else
+		{
+			for (int i = 0; i < size; i++)
+				this->p[i] = temp[i];
+		}
 		this->num = size;
 		delete[] temp;
 	}
 }
 
-#endif // !VEC_FINAL_H
+#endif
