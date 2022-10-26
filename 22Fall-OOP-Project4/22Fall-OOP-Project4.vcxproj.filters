@@ -18,5 +18,19 @@
     <ClCompile Include="test.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="string-final.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="vec-base.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="vec-final.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="string-final.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
