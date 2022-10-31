@@ -16,22 +16,22 @@ public:
 	void resize(int size);
 	void push_back(const T& element); //尾插
 	void insert(int& index, const T& element); //插入
-	void pop_back(); //弹出
+	void pop_back(); //弹出尾元素
 	void erase(int& index);//删除指定位置元素
 	void reverse(int& begin, int& end); //颠倒指定范围元素
 	bool empty();
 	void clear();
-	T& front(); //派生类新增函数
-	T& back(); //派生类新增函数
-	template <typename TYPE> friend Vector<TYPE> operator+(const Vector<TYPE>& v1, const Vector<TYPE>& v2) throw(double);
-	template <typename TYPE> friend Vector<TYPE> operator-(const Vector<TYPE>& v1, const Vector<TYPE>& v2) throw(double);
-	template <typename TYPE> friend Vector<TYPE> operator*(const T& x, const Vector<TYPE>& v);
-	template <typename TYPE> friend Vector<TYPE> operator*(const Vector<TYPE>& v, const T& x);
+	T& front(); //派生类新增函数,返回首元素引用
+	T& back(); //派生类新增函数，返回尾元素引用
+	template <typename T> friend Vector<T> operator+(const Vector<T>& v1, const Vector<T>& v2) throw(double);
+	template <typename T> friend Vector<T> operator-(const Vector<T>& v1, const Vector<T>& v2) throw(double);
+	template <typename T> friend Vector<T> operator*(const T& x, const Vector<T>& v);
+	template <typename T> friend Vector<T> operator*(const Vector<TYPE>& v, const T& x);
 	Vector<T>& operator+=(const Vector<T>& v) throw(double);
 	Vector<T>& operator-=(const Vector<T>& v) throw(double);
 	Vector<T>& operator*=(const T& x);
-	template <typename TYPE> friend bool operator==(const Vector<TYPE>& v1, const Vector<TYPE>& v2);
-	template <typename TYPE> friend bool operator!=(const Vector<TYPE>& v1, const Vector<TYPE>& v2);
+	template <typename T> friend bool operator==(const Vector<T>& v1, const Vector<T>& v2);
+	template <typename T> friend bool operator!=(const Vector<T>& v1, const Vector<T>& v2);
 };
 
 template <typename T>
@@ -55,47 +55,9 @@ void Vector<T>::Output(ostream& out) const
 template <typename T>
 void Vector<T>::Input(istream& in)
 {
-	const int MAX_SIZE = 1024;			//能读取最大维数
-	Vector<T> temp;
-	char ch = '0';
-	T buffer[MAX_SIZE];
-	int i, j, k;
-
-	while (true)						// 丢弃左圆括号之前的空白字符
-	{
-		ch = in.peek();				
-		if (ch == '(') 
-		{
-			in.get(ch);
-			break;
-		}
-		else
-			in.get(ch);
-	}
-	while (true)						// 丢弃左圆括号之后的空白字符
-	{
-		ch = in.peek();
-		if (isspace(ch))
-			in.get(ch);
-		else
-			break;
-	}
-
-	if (in.peek() == ')')				// 若是')'，向量为空
-	{
-		this->resize(0);
-		return;
-	}
-
-	for (k = 0; ch != ')'; k++)
-	{
-		for (i = 0; i < MAX_SIZE && ch != ')'; i++)
-			in >> buffer[i] >> ch;
-		temp.resize(k * MAX_SIZE + i);
-		for (j = 0; j < i; j++)
-			temp[k * MAX_SIZE + j] = buffer[j];
-	}
-	*this = temp;
+	T element;
+	while (in >> element)
+		this->push_back(element);
 }
 
 template <typename T>

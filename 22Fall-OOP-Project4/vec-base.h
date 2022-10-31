@@ -4,13 +4,13 @@
 #include <iostream>
 using namespace std;
 
-template <typename T> class VectorBase			// 抽象向量类模板（描述）必须将成员函数的实现全写入头文件中！
+template <typename T> class VectorBase			
 {
 public:
-	VectorBase(int size = 0, const T* x = NULL);	// ① 构造函数（含默认的构造函数、转换构造函数）
-	VectorBase(const VectorBase& v);				// ② 拷贝构造函数（实现深拷贝构造）
-	virtual ~VectorBase();						// ③ 析构函数（虚函数）
-	VectorBase& operator=(const VectorBase& v);	// ④ 赋值运算符函数（实现深赋值运算）
+	VectorBase(int size = 0, const T* x = NULL);	// 构造函数（含默认的构造函数、转换构造函数）
+	VectorBase(const VectorBase& v);				// 拷贝构造函数（实现深拷贝构造）
+	virtual ~VectorBase();						// 析构函数（虚函数）
+	VectorBase& operator=(const VectorBase& v);	// 赋值运算符函数（实现深赋值运算）
 	T& operator[](int index) const throw(int);
 	// 方括号运算符函数（引用返回，可作左值）;下表越界时抛掷异常
 	int getsize() const;					// 获取向量的维数（常量成员函数）
@@ -31,7 +31,7 @@ protected:							// 受保护的（以便派生类的访问属性）
 };
 
 template <typename T>
-VectorBase<T>::VectorBase(int size, const T* x)	// ① 构造函数（含默认的构造函数、转换构造函数）
+VectorBase<T>::VectorBase(int size, const T* x)	// 构造函数（含默认的构造函数、转换构造函数）
 {
 	num = (size > 0) ? size : 0;
 	p = NULL;
@@ -44,7 +44,7 @@ VectorBase<T>::VectorBase(int size, const T* x)	// ① 构造函数（含默认的构造函数
 }
 
 template <typename T>
-VectorBase<T>::VectorBase(const VectorBase<T>& v)	// ② 拷贝构造函数（实现深拷贝构造）
+VectorBase<T>::VectorBase(const VectorBase<T>& v)	// 拷贝构造函数（实现深拷贝构造）
 {
 	num = 0;
 	p = NULL;
@@ -52,14 +52,14 @@ VectorBase<T>::VectorBase(const VectorBase<T>& v)	// ② 拷贝构造函数（实现深拷贝
 }
 
 template <typename T>
-VectorBase<T>::~VectorBase()						// ③ 析构函数（虚函数）
+VectorBase<T>::~VectorBase()						// 析构函数（虚函数）
 {
 	num = 0;
 	if (p != NULL) delete[] p;
 }
 
 template <typename T>
-VectorBase<T>& VectorBase<T>::operator=(const VectorBase<T>& v)// ④ 赋值运算符函数（实现深赋值运算）
+VectorBase<T>& VectorBase<T>::operator=(const VectorBase<T>& v)// 赋值运算符函数（实现深赋值运算）
 {
 	if (num != v.num)
 	{
@@ -88,14 +88,14 @@ int VectorBase<T>::getsize() const				// 获取向量的维数（常量成员函数）
 }
 
 template <typename T>
-ostream& operator<<(ostream& out, const VectorBase<T>& v)	// 不必是友元函数
+ostream& operator<<(ostream& out, const VectorBase<T>& v)	
 {
 	v.Output(out);
 	return out;
 }
 
 template <typename T>
-istream& operator>>(istream& in, VectorBase<T>& v)			// 不必是友元函数
+istream& operator>>(istream& in, VectorBase<T>& v)			
 {
 	v.Input(in);
 	return in;
