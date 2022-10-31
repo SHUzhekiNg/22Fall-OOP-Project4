@@ -18,9 +18,15 @@ public:
 
 	virtual void Output(ostream& out) const = 0;// 纯虚函数（常量函数），以便重载的插入运算符享受多态性
 	virtual void Input(istream& in) = 0;		// 纯虚函数，以便重载的插入运算符享受多态性
-
-protected:								// 受保护的（以便派生类的访问属性）
-	int num;									// 向量的维数
+	virtual void push_back(const T& element) = 0; //纯虚函数，尾插
+	virtual void insert(int& index, const T& element) = 0; //纯虚函数，插入
+	virtual void pop_back() = 0; //纯虚函数，弹出
+	virtual void erase(int& index) = 0;//纯虚函数，删除指定位置元素
+	virtual void reverse(int& begin, int& end) = 0; //纯虚函数，颠倒指定范围元素
+	virtual void clear() = 0;//纯虚函数，清空容器
+	virtual bool empty() = 0; //纯虚函数，判断容器是否为空
+protected:							// 受保护的（以便派生类的访问属性）
+	int num;								// 向量的维数
 	T* p;										// 指针（仅sizeof(void*)字节，即4字节），资源在堆空间
 };
 

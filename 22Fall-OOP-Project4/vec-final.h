@@ -14,6 +14,15 @@ public:
 	void Input(istream& in);
 	void Output(ostream& out) const;
 	void resize(int size);
+	void push_back(const T& element); //尾插
+	void insert(int& index, const T& element); //插入
+	void pop_back(); //弹出
+	void erase(int& index);//删除指定位置元素
+	void reverse(int& begin, int& end); //颠倒指定范围元素
+	bool empty();
+	void clear();
+	T& front(); //派生类新增函数
+	T& back(); //派生类新增函数
 	template <typename TYPE> friend Vector<TYPE> operator+(const Vector<TYPE>& v1, const Vector<TYPE>& v2) throw(double);
 	template <typename TYPE> friend Vector<TYPE> operator-(const Vector<TYPE>& v1, const Vector<TYPE>& v2) throw(double);
 	template <typename TYPE> friend Vector<TYPE> operator*(const T& x, const Vector<TYPE>& v);
@@ -198,5 +207,67 @@ void Vector<T>::resize(int size)
 		delete[] temp;
 	}
 }
+//new func
+template <typename T>
+void Vector<T>::insert(int& index, const T& element)
+{
+	this->resize(++num); //容量+1
+	for (int i = num - 1; i > index + 1; --i) //index位置后元素右移1位
+		p[i] = p[i - 1];
+	p[index + 1] = element;
+}
 
+template <typename T>
+void Vector<T>::push_back(const T& element)
+{
+	int temp = num - 1;
+	this->resize(++num);
+	this->insert(temp, element);
+}
+
+template <typename T>
+void Vector<T>::erase(int& index)
+{
+	for (int i = index; i < num - 1; ++i)
+		p[i] = p[i + 1];
+	this->resize(--num);
+}
+
+template <typename T>
+void Vector<T>::pop_back()
+{
+	this->erase(num - 1);
+	this->resize(--num);
+}
+
+template <typename T>
+void Vector<T>::reverse(int& begin, int& end)
+{
+	int mid = (begin + end) / 2;
+	for (int i = begin; i <= mid; ++i)
+		swap(p[i], p[end - i + 1]);
+}
+template <typename T>
+void Vector<T>::clear()
+{
+	this->resize(0);
+}
+
+template <typename T>
+bool Vector<T>::empty()
+{
+	return num == 0;
+}
+
+template <typename T>
+T& Vector<T>::front()
+{
+	return p[0];
+}
+
+template <typename T>
+T& Vector<T>::back()
+{
+	return p[num - 1];
+}
 #endif
