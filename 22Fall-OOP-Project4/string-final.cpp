@@ -1,6 +1,5 @@
 // MyString.cpp
 #include "string-final.h"
-
 String::String(const char* str) : VectorBase<char>(strlen(str), str)	// 构造函数
 {
 }
@@ -51,6 +50,53 @@ void String::Input(istream& in)	// 具有自动扩展容器容量的功能
 	*this = temp;					// 利用了赋值运算符（深赋值运算）
 }
 
+void String::push_back(const char& element)
+{
+	int temp = num - 1;
+	this->resize(++num);
+	this->insert(temp, element);
+}
+
+void String::insert(int& index, const char& element)
+{
+	resize(++num); //容量+1
+	for (int i = num - 1; i > index + 1; --i) //index位置后元素右移1位
+		p[i] = p[i - 1];
+	p[index + 1] = element;
+}
+
+void String::pop_back()
+{
+	int temp = num - 1;
+	erase(temp);
+	resize(--num);
+}
+
+void String::erase(int& index)
+{
+	for (int i = index; i < num - 1; ++i)
+		p[i] = p[i + 1];
+	resize(--num);
+}
+
+void String::reverse(int& begin, int& end)
+{
+	char temp;
+	for (int i = 0; i < (end - begin) / 2; i++)
+	{
+		temp = p[begin + i];
+		p[begin + i] = p[end - i];
+		p[end - i] = temp;
+	}
+}
+bool String::empty()
+{
+	return num == 0;
+}
+void String::clear()
+{
+
+}
 istream& getline(istream& in, String& Str, int n, char delim)
 {
 	if (n <= 0) return in;

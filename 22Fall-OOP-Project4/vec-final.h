@@ -26,7 +26,7 @@ public:
 	template <typename T> friend Vector<T> operator+(const Vector<T>& v1, const Vector<T>& v2) throw(double);
 	template <typename T> friend Vector<T> operator-(const Vector<T>& v1, const Vector<T>& v2) throw(double);
 	template <typename T> friend Vector<T> operator*(const T& x, const Vector<T>& v);
-	template <typename T> friend Vector<T> operator*(const Vector<TYPE>& v, const T& x);
+	template <typename T> friend Vector<T> operator*(const Vector<T>& v, const T& x);
 	Vector<T>& operator+=(const Vector<T>& v) throw(double);
 	Vector<T>& operator-=(const Vector<T>& v) throw(double);
 	Vector<T>& operator*=(const T& x);
