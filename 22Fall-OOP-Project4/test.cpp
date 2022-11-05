@@ -50,8 +50,19 @@ int test()
 	cout << "请输入修改后Vector和String的大小" << endl;
 	cin >> n;
 	cout << "\n调整对象维数为"<<n<<"，实现多态性" << endl;
-	v.resize(n);
-	str.resize(n);
+	try
+	{
+		v.resize(n);
+		str.resize(n);
+	}
+	catch (double d)
+	{
+		cout << "Failed to resize" << endl;
+	}
+	catch (int a)
+	{
+		cout << "Failed to resize" << endl;
+	}
 	cout << "向量：" << v << endl
 		<< "字符串：\"" << str << "\"" << endl;
 
