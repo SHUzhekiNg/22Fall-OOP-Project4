@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClCompile Include="string-final.cpp" />
     <ClCompile Include="test.cpp" />
+    <ClCompile Include="vec-final.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="string-final.h" />

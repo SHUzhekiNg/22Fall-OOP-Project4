@@ -21,6 +21,9 @@
     <ClCompile Include="string-final.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="vec-final.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vec-base.h">

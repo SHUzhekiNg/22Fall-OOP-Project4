@@ -145,7 +145,7 @@ int testStr()
 	String s3;
 
 	int c = 1;
-	int p, l;
+	int x, l;
 
 	while (c) {
 		cout << "当前默认字符串为:s1=" << s1 << ", s2=" << s2 << endl << "请选择测试操作:";
@@ -172,10 +172,10 @@ int testStr()
 			cout << "字符串s1为：";
 			cout << s1 << endl;
 			cout << endl << "输入字符下标：";
-			cin >> p;
+			cin >> x;
 			cout << endl << "测试下标运算符结果为：" << endl;
 			try {
-				cout << s1[p] << endl;
+				cout << s1[x] << endl;
 			}
 			catch (out_of_range& e)
 			{
