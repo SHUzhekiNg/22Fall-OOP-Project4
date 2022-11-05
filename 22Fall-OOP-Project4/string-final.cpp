@@ -6,12 +6,12 @@ String::String(const char* str) : VectorBase<char>(strlen(str), str)
 
 int String::length() const
 {
-	return num;
+	return this->l;
 }
 
 void String::Output(ostream& out) const
 {
-	for (int i = 0; i < num; i++)
+	for (int i = 0; i < this->l; i++)
 		out << data[i];
 }
 
@@ -52,31 +52,31 @@ void String::Input(istream& in)
 
 void String::push_back(const char& element)
 {
-	int temp = num - 1;
-	this->resize(++num);
+	int temp = this->l - 1;
+	this->resize(++this->l);
 	this->insert(temp, element);
 }
 
 void String::insert(int& index, const char& element)
 {
-	resize(++num);
-	for (int i = num - 1; i > index + 1; --i)
+	resize(++this->l);
+	for (int i = this->l - 1; i > index + 1; --i)
 		data[i] = data[i - 1];
 	data[index + 1] = element;
 }
 
 void String::pop_back()
 {
-	int temp = num - 1;
+	int temp = this->l - 1;
 	erase(temp);
-	resize(--num);
+	resize(--this->l);
 }
 
 void String::erase(int& index)
 {
-	for (int i = index; i < num - 1; ++i)
+	for (int i = index; i < this->l - 1; ++i)
 		data[i] = data[i + 1];
-	resize(--num);
+	resize(--this->l);
 }
 
 void String::reverse(int& begin, int& end)
@@ -91,7 +91,7 @@ void String::reverse(int& begin, int& end)
 }
 bool String::empty()
 {
-	return num == 0;
+	return this->l == 0;
 }
 void String::clear()
 {
@@ -119,9 +119,9 @@ String operator+(const String& s1, const String& s2)
 
 String& String::operator+=(const String& s)
 {
-	resize(num + s.num);
-	for (int i = 0; i < s.num; i++)
-		data[num + i] = s.data[i];
+	resize(this->l + s.l);
+	for (int i = 0; i < s.l; i++)
+		data[this->l + i] = s.data[i];
 	return *this;
 }
 
@@ -181,21 +181,21 @@ bool operator!=(const String& s1, const String& s2)
 
 void String::resize(int size)
 {
-	if (size < 0 || size == num)
+	if (size < 0 || size == this->l)
 		return;
 	else if (size == 0)
 	{
 		if (data != NULL) delete[] data;
 		data = NULL;
-		num = 0;
+		this->l = 0;
 	}
 	else
 	{
 		char* temp = data;
 		data = new char[size];
 		for (int i = 0; i < size; i++)
-			data[i] = (i < num) ? temp[i] : ' ';
-		num = size;
+			data[i] = (i < this->l) ? temp[i] : ' ';
+		this->l = size;
 		delete[] temp;
 	}
 }
@@ -206,14 +206,14 @@ String String::mid(int pos, int n) const
 	t1.data = new char[n];
 	for (i = 0; i < n; i++)
 		t1.data[i] = this->data[pos + i - 1];
-	t1.num = n;
+	t1.l = n;
 	return t1;
 }
 
 int String::stoi() throw(int)
 {
 	int i, n = 0, k = 0;
-	for (i = 0; i < num; i++)
+	for (i = 0; i < this->l; i++)
 	{
 		k = this->data[i] - '0';
 		if (k > 9) throw 1;
@@ -247,16 +247,16 @@ String itos(int n)
 
 String& String::insert(int p0, const char* s)
 {
-	if (p0 > num) p0 = num;
-	char* p1 = new char[num + strlen(s) + 1];
+	if (p0 > this->l) p0 = this->l;
+	char* p1 = new char[this->l + strlen(s) + 1];
 	strncpy(p1, data, p0);
 	p1[p0] = '\0';
 	strcat(p1, s);
 	strcat(p1, data + p0);
 	delete[] data;
 	data = p1;
-	num = num + strlen(s) + 1;
-	this->resize(num - 1);
+	this->l = this->l + strlen(s) + 1;
+	this->resize(this->l - 1);
 	return *this;
 }
 
@@ -264,8 +264,8 @@ int String::find(const String& str) const
 {
 	int i, j, m, n, flag;
 	m = strlen(str.data);
-	if (m > num) return -1;
-	for (i = 0; i < num - m; i++)
+	if (m > this->l) return -1;
+	for (i = 0; i < this->l - m; i++)
 	{
 		flag = 1;
 		for (j = 0; j < m; j++)

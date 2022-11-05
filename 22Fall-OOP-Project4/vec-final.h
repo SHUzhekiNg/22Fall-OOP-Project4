@@ -17,7 +17,7 @@ public:
 	void push_back(const T& element);				//尾插
 	void insert(int& index, const T& element);		//插入
 	void pop_back();								//弹出尾元素
-	void erase(int& index);							//删除指定位置元素
+	void erase(int index);							//删除指定位置元素
 	void reverse(int& begin, int& end);				//颠倒指定范围元素
 	bool empty();
 	void clear();
@@ -33,6 +33,5 @@ public:
 	template <typename T> friend bool operator==(const Vector<T>& v1, const Vector<T>& v2);
 	template <typename T> friend bool operator!=(const Vector<T>& v1, const Vector<T>& v2);
 };
-
 
 #endif

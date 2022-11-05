@@ -9,7 +9,7 @@ template <typename T> class VectorBase
 public:
 	VectorBase(int size = 0, const T* x = NULL);	// ¹¹Ôìº¯Êı£¨º¬Ä¬ÈÏµÄ¹¹Ôìº¯Êı¡¢×ª»»¹¹Ôìº¯Êı£©
 	VectorBase(const VectorBase& v);				// ¿½±´¹¹Ôìº¯Êı£¨ÊµÏÖÉî¿½±´¹¹Ôì£©
-	virtual ~VectorBase();							// Îö¹¹º¯Êı£¨Ğéº¯Êı£©
+	virtual ~VectorBase()=0;							// Îö¹¹º¯Êı£¨Ğéº¯Êı£©
 	VectorBase& operator=(const VectorBase& v);		// ¸³ÖµÔËËã·ûº¯Êı£¨ÊµÏÖÉî¸³ÖµÔËËã£©
 	T& operator[](int index) const throw(int);		// ·½À¨ºÅÔËËã·ûº¯Êı£¨ÒıÓÃ·µ»Ø£¬¿É×÷×óÖµ£©;ÏÂ±íÔ½½çÊ±Å×ÖÀÒì³£
 	
@@ -25,19 +25,19 @@ public:
 	virtual void clear() = 0;
 	virtual bool empty() = 0;
 protected:
-	int num;
+	int l;
 	T* data;
 };
 
 template <typename T>
 VectorBase<T>::VectorBase(int size, const T* x)		// ¹¹Ôìº¯Êı£¨º¬Ä¬ÈÏµÄ¹¹Ôìº¯Êı¡¢×ª»»¹¹Ôìº¯Êı£©
 {
-	num = (size > 0) ? size : 0;
+	this->l = (size > 0) ? size : 0;
 	data = NULL;
-	if (num > 0)
+	if (this->l > 0)
 	{
-		data = new T[num];
-		for (int i = 0; i < num; i++)
+		data = new T[this->l];
+		for (int i = 0; i < this->l; i++)
 			data[i] = (x == NULL) ? 0 : x[i];
 	}
 }
@@ -45,7 +45,7 @@ VectorBase<T>::VectorBase(int size, const T* x)		// ¹¹Ôìº¯Êı£¨º¬Ä¬ÈÏµÄ¹¹Ôìº¯Êı¡¢
 template <typename T>
 VectorBase<T>::VectorBase(const VectorBase<T>& v)	// ¿½±´¹¹Ôìº¯Êı£¨ÊµÏÖÉî¿½±´¹¹Ôì£©
 {
-	num = 0;
+	this->l = 0;
 	data = NULL;
 	*this = v;
 }
@@ -53,19 +53,19 @@ VectorBase<T>::VectorBase(const VectorBase<T>& v)	// ¿½±´¹¹Ôìº¯Êı£¨ÊµÏÖÉî¿½±´¹¹Ô
 template <typename T>
 VectorBase<T>::~VectorBase()						// Îö¹¹º¯Êı£¨Ğéº¯Êı£©
 {
-	num = 0;
+	this->l = 0;
 	if (data != NULL) delete[] data;
 }
 
 template <typename T>
 VectorBase<T>& VectorBase<T>::operator=(const VectorBase<T>& v)// ¸³ÖµÔËËã·ûº¯Êı£¨ÊµÏÖÉî¸³ÖµÔËËã£©
 {
-	if (num != v.num)
+	if (this->l != v.l)
 	{
 		if (data != NULL) delete[] data;
-		data = new T[num = v.num];
+		data = new T[this->l = v.l];
 	}
-	for (int i = 0; i < num; i++)
+	for (int i = 0; i < this->l; i++)
 		data[i] = v.data[i];
 	return *this;
 }
@@ -75,7 +75,7 @@ T& VectorBase<T>::operator[](int index) const throw(int)// ·½À¨ºÅÔËËã·ûº¯Êı£¨ÒıÓ
 {
 	if (data == NULL)
 		throw 0;							
-	if (index < 0 || index >= num)
+	if (index < 0 || index >= this->l)
 		throw - 1;
 	return data[index];
 }
@@ -83,7 +83,7 @@ T& VectorBase<T>::operator[](int index) const throw(int)// ·½À¨ºÅÔËËã·ûº¯Êı£¨ÒıÓ
 template <typename T>
 int VectorBase<T>::getsize() const				// »ñÈ¡ÏòÁ¿µÄÎ¬Êı£¨³£Á¿³ÉÔ±º¯Êı£©
 {
-	return num;
+	return this->l;
 }
 
 template <typename T>

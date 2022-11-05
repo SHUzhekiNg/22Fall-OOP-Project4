@@ -75,7 +75,7 @@ int test()
 
 int testVec()
 {
-	int a[10], b[10], num = 0, c = 1, length;	//num是向vec中添加的数据，length是修改size
+	int a[10], b[10], x = 0, c = 1, length;	//this->l是向vec中添加的数据，length是修改size
 	for (int i = 0; i < 10; i++)
 	{
 		a[i] = i;
@@ -115,13 +115,13 @@ int testVec()
 			break;
 		case 3:
 			cout << "请输入您想要添加的数据";
-			cin >> num;
-			vec1.push_back(num);
+			cin >> x;
+			vec1.push_back(x);
 			break;
 		case 4:
 			cout << "请输入您想要添加的数据";
-			cin >> num;
-			vec2.push_back(num);
+			cin >> x;
+			vec2.push_back(x);
 			break;
 		case 5:
 			vec1 = vec2;

@@ -9,10 +9,10 @@ template <typename T>
 void Vector<T>::Output(ostream& out) const
 {
 	out << "(";
-	for (int i = 0; i < this->num; i++)
+	for (int i = 0; i < this->l; i++)
 	{
 		out << this->data[i];
-		if (i != this->num - 1)
+		if (i != this->l - 1)
 			out << ", ";
 	}
 	out << ")";
@@ -108,22 +108,22 @@ bool operator!=(const Vector<T>& v1, const Vector<T>& v2)
 template <typename T>
 void Vector<T>::resize(int size)
 {
-	if (size < 0 || size == this->num);
+	if (size < 0 || size == this->l);
 	else if (size == 0)
 	{
 		if (this->data != nullptr) delete[] this->data;
 		this->data = nullptr;
-		this->num = 0;
+		this->l = 0;
 	}
 	else
 	{
 		T* temp = this->data;
 		this->data = new T[size];
-		if (size > this->num)
+		if (size > this->l)
 		{
-			for (int i = 0; i < num; i++)
+			for (int i = 0; i < this->l; i++)
 				this->data[i] = temp[i];
-			for (int i = num; i < size; i++)
+			for (int i = this->l; i < size; i++)
 				this->data[i] = 0;
 		}
 		else
@@ -131,7 +131,7 @@ void Vector<T>::resize(int size)
 			for (int i = 0; i < size; i++)
 				this->data[i] = temp[i];
 		}
-		this->num = size;
+		this->l = size;
 		delete[] temp;
 	}
 }
@@ -139,8 +139,8 @@ void Vector<T>::resize(int size)
 template <typename T>
 void Vector<T>::insert(int& index, const T& element)
 {
-	this->resize(++num);
-	for (int i = num - 1; i > index + 1; --i)
+	this->resize(++this->l);
+	for (int i = this->l - 1; i > index + 1; --i)
 		data[i] = data[i - 1];
 	data[index + 1] = element;
 }
@@ -148,33 +148,33 @@ void Vector<T>::insert(int& index, const T& element)
 template <typename T>
 void Vector<T>::push_back(const T& element)
 {
-	int temp = num - 1;
-	this->resize(++num);
+	int temp = this->l - 1;
+	this->resize(++this->l);
 	this->insert(temp, element);
 }
 
 template <typename T>
-void Vector<T>::erase(int& index)
+void Vector<T>::erase(int index)
 {
-	for (int i = index; i < num - 1; ++i)
+	for (int i = index; i < this->l - 1; ++i)
 		data[i] = data[i + 1];
-	this->resize(--num);
+	this->resize(--this->l);
 }
 
 template <typename T>
 void Vector<T>::pop_back()
 {
-	this->erase(num - 1);
-	this->resize(--num);
+	this->erase(this->l - 1);
+	this->resize(--this->l);
 }
-
+/*
 template <typename T>
 void Vector<T>::reverse(int& begin, int& end)
 {
 	int mid = (begin + end) / 2;
 	for (int i = begin; i <= mid; ++i)
 		swap(data[i], data[end - i + 1]);
-}
+}*/
 template <typename T>
 void Vector<T>::clear()
 {
@@ -184,7 +184,7 @@ void Vector<T>::clear()
 template <typename T>
 bool Vector<T>::empty()
 {
-	return num == 0;
+	return this->l == 0;
 }
 
 template <typename T>
@@ -196,5 +196,5 @@ T& Vector<T>::front()
 template <typename T>
 T& Vector<T>::back()
 {
-	return data[num - 1];
+	return data[this->l - 1];
 }
