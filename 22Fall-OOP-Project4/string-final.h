@@ -1,4 +1,4 @@
-#pragma once
+/*#pragma once
 #ifndef STRING_FINAL_H
 #define STRING_FINAL_H
 #define _CRT_SECURE_NO_WARNINGS
@@ -41,4 +41,4 @@ public:
 	void clear();
 };
 
-#endif //STRING_FINAL_H
+#endif //STRING_FINAL_H*/

@@ -2,7 +2,7 @@
 #include <conio.h>
 #include "string-final.h"
 #include "vec-final.h"
-#include "vec-base.h"
+
 
 using namespace std;
 int testVec();
@@ -23,9 +23,9 @@ int main()
 		cin >> a;
 		switch (a)
 		{
-		case '1':testVec();	break;
-		case '2':testStr();	break;
-		case '3':test();			break;
+		case 1:testVec();	break;
+		//case '2':testStr();	break;
+		//case '3':test();			break;
 		case '0':a = 0;		break;
 		}
 	}
@@ -33,7 +33,7 @@ int main()
 
 }
 
-int test()
+/*int test()
 {
 	Vector<int> v;
 	String str;
@@ -72,7 +72,7 @@ int test()
 		<< "字符串：\"" << str << "\"" << endl;
 	return 0;
 }
-
+*/
 int testVec()
 {
 	int a[10], b[10], x = 0, c = 1, length;	//this->l是向vec中添加的数据，length是修改size
@@ -83,6 +83,11 @@ int testVec()
 	}
 	Vector<int> vec1(10, a);
 	Vector<int> vec2(10, b);
+	cout << vec1<<endl;
+	//vec1.pop_back();
+	//cout << vec1 << endl;
+	vec1.reverse(0, 3);
+	cout << vec1 << endl;;
 	while (c) {
 		cout << endl << "当前vector为:vec1=" << vec1 << ", vec2=" << vec2 << endl << "请选择测试操作:";
 		cout << endl << "1. 测试关系运算符==";
@@ -148,7 +153,7 @@ int testVec()
 
 	return 0;
 }
-
+/*
 int testStr()
 {
 	String s1("SHU");
@@ -219,4 +224,4 @@ int testStr()
 	}
 	system("pause");
 	return 0;
-}
+}*/

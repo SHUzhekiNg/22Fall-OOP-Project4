@@ -1,4 +1,5 @@
 // MyString.cpp
+/*
 #include "string-final.h"
 String::String(const char* str) : VectorBase<char>(strlen(str), str)
 {
@@ -291,4 +292,4 @@ void String::swap(String& str)
 	char* temp = str.data;
 	str.data = data;
 	data = temp;
-}
+}*/
