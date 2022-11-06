@@ -25,15 +25,15 @@ int main()
 		{
 		case 1:testVec();	break;
 		case 2:testStr();	break;
-		//case '3':test();			break;
-		case '0':a = 0;		break;
+		case 3:test();			break;
+		case 0:a = 0;		break;
 		}
 	}
 	return 0;
 
 }
 
-/*int test()
+int test()
 {
 	Vector<int> v;
 	String str;
@@ -72,7 +72,7 @@ int main()
 		<< "字符串：\"" << str << "\"" << endl;
 	return 0;
 }
-*/
+
 int testVec()
 {
 	int a[10], b[10], x = 0, c = 1, length;	//this->l是向vec中添加的数据，length是修改size
@@ -83,9 +83,6 @@ int testVec()
 	}
 	Vector<int> vec1(10, a);
 	Vector<int> vec2(10, b);
-	cout << vec1<<endl;
-	//vec1.pop_back();
-	//cout << vec1 << endl;
 	vec1.reverse(0, 3);
 	cout << vec1 << endl;;
 	while (c) {

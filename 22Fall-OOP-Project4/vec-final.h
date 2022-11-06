@@ -31,6 +31,7 @@ public:
 	template <typename T> friend Vector<T> operator-(const Vector<T>& v1, const Vector<T>& v2) throw(double);
 	template <typename T> friend Vector<T> operator*(const T& x, const Vector<T>& v);
 	template <typename T> friend Vector<T> operator*(const Vector<T>& v, const T& x);
+	template <typename T> friend Vector<T> operator*(const Vector<T>& v1, const Vector<T>& v2);
 	Vector<T>& operator+=(const Vector<T>& v) throw(double);
 	Vector<T>& operator-=(const Vector<T>& v) throw(double);
 	Vector<T>& operator*=(const T& x);
@@ -129,7 +130,12 @@ void Vector<T>::Input(istream& in)
 {
 	T element;
 	while (in >> element)
+	{
 		this->push_back(element);
+		char ch = getchar();
+		if (ch == '\n')
+			break;
+	}
 }
 
 template <typename T>
@@ -167,6 +173,15 @@ template <typename T>
 Vector<T> operator*(const Vector<T>& v, const T& x)
 {
 	return x * v;
+}
+
+template <typename T>
+Vector<T> operator*(const Vector<T>& v1, const Vector<T>& v2)
+{
+	Vector<T> ret(v1);
+	for (int i = v1.getsize() - 1; i >= 0; i--)
+		ret[i] *= v2[i];
+	return ret;
 }
 
 template <typename T>
@@ -241,7 +256,7 @@ void Vector<T>::resize(int size)
 		delete[] temp;
 	}
 }
-//new func
+
 template <typename T>
 void Vector<T>::insert(int index, const T element)
 {
@@ -256,7 +271,6 @@ template <typename T>
 void Vector<T>::push_back(const T element)
 {
 	int temp = this->l - 1;
-	this->resize(++this->l);
 	this->insert(temp, element);
 }
 
