@@ -24,7 +24,7 @@ int main()
 		switch (a)
 		{
 		case 1:testVec();	break;
-		//case '2':testStr();	break;
+		case 2:testStr();	break;
 		//case '3':test();			break;
 		case '0':a = 0;		break;
 		}
@@ -153,7 +153,7 @@ int testVec()
 
 	return 0;
 }
-/*
+
 int testStr()
 {
 	String s1("SHU");
@@ -224,4 +224,4 @@ int testStr()
 	}
 	system("pause");
 	return 0;
-}*/
+}

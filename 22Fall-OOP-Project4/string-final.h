@@ -1,4 +1,4 @@
-/*#pragma once
+#pragma once
 #ifndef STRING_FINAL_H
 #define STRING_FINAL_H
 #define _CRT_SECURE_NO_WARNINGS
@@ -20,7 +20,9 @@ public:
 	friend bool operator>=(const String& s1, const String& s2);
 	friend bool operator==(const String& s1, const String& s2);
 	friend bool operator!=(const String& s1, const String& s2);
-
+	friend ostream& operator<<(ostream& out, const String& s1);
+	friend istream& operator>>(istream& in, String& s1);
+	char& operator [](int p) const;
 	int stoi() throw(int);                     
 	int stoi(int pos, int n);
 	friend String itos(int n);
@@ -32,13 +34,15 @@ public:
 	void Input(istream& in);
 	void Output(ostream& out) const;
 	void resize(int size);
-	void push_back(const char& element);			//尾插
-	void insert(int& index, const char& element);	//插入
+	void push_back(const char element);			//尾插
+	void insert(int index, const char element);	//插入
 	void pop_back();								//弹出尾元素
-	void erase(int& index);							//删除指定位置元素
-	void reverse(int& begin, int& end);				//颠倒指定范围元素
+	void erase(int index);							//删除指定位置元素
+	void reverse(int begin, int end);				//颠倒指定范围元素
 	bool empty();
 	void clear();
+protected:
+	int l;
+	char* data;
 };
-
 #endif //STRING_FINAL_H*/

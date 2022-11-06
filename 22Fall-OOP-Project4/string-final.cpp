@@ -1,8 +1,18 @@
 // MyString.cpp
-/*
+
 #include "string-final.h"
-String::String(const char* str) : VectorBase<char>(strlen(str), str)
+String::String(const char* str)
 {
+	int size = strlen(str);
+	this->l = (size > 0) ? size + 1 : 0;
+	data = NULL;
+	if (this->l > 0)
+	{
+		data = new char[this->l];
+		for (int i = 0; i < this->l - 1; i++)
+			data[i] = (str == NULL) ? ' ' : str[i];
+		data[l - 1] = '\0';
+	}
 }
 
 int String::length() const
@@ -51,14 +61,14 @@ void String::Input(istream& in)
 	*this = temp;
 }
 
-void String::push_back(const char& element)
+void String::push_back(const char element)
 {
 	int temp = this->l - 1;
 	this->resize(++this->l);
 	this->insert(temp, element);
 }
 
-void String::insert(int& index, const char& element)
+void String::insert(int index, const char element)
 {
 	resize(++this->l);
 	for (int i = this->l - 1; i > index + 1; --i)
@@ -73,14 +83,14 @@ void String::pop_back()
 	resize(--this->l);
 }
 
-void String::erase(int& index)
+void String::erase(int index)
 {
 	for (int i = index; i < this->l - 1; ++i)
 		data[i] = data[i + 1];
 	resize(--this->l);
 }
 
-void String::reverse(int& begin, int& end)
+void String::reverse(int begin, int end)
 {
 	char temp;
 	for (int i = 0; i < (end - begin) / 2; i++)
@@ -110,19 +120,18 @@ istream& getline(istream& in, String& str, int n, char delim)
 
 String operator+(const String& s1, const String& s2)
 {
-	String result(s1);
+	String result(s1.data);
 	int n1 = s1.length(), n2 = s2.length();
-	result.resize(n1 + n2);
+	result.resize(n1 + n2 - 1);
 	for (int i = 0; i < n2; i++)
-		result[n1 + i] = s2[i];
+		result[n1 + i - 1] = s2[i];
+	result[n1 + n2 - 1] = '\0';
 	return result;
 }
 
 String& String::operator+=(const String& s)
 {
-	resize(this->l + s.l);
-	for (int i = 0; i < s.l; i++)
-		data[this->l + i] = s.data[i];
+	*this = *this + s;
 	return *this;
 }
 
@@ -180,6 +189,34 @@ bool operator!=(const String& s1, const String& s2)
 	return !(s1 == s2);
 }
 
+ostream& operator<<(ostream& out, const String& s1)
+{
+	if (s1.data == nullptr)	out << "Î´´æ·Å×Ö·û´®";
+	else   out << s1.data;
+	return out;
+}
+istream& operator>>(istream& in, String& s1)
+{
+	string s;
+	in >> s;
+	char* cs = nullptr;
+	try {
+		cs = new char[s.length() + 1];
+	}
+	catch (bad_alloc& e)
+	{
+		cerr << e.what() << endl;
+	}
+	for (int i = 0; i < s.length(); i++)
+		cs[i] = s[i];
+	cs[s.length()] = '\0';
+	s1 = cs;
+	return in;
+}
+char& String::operator [](int p) const
+{
+	return data[p];
+}
 void String::resize(int size)
 {
 	if (size < 0 || size == this->l)
@@ -292,4 +329,4 @@ void String::swap(String& str)
 	char* temp = str.data;
 	str.data = data;
 	data = temp;
-}*/
+}
