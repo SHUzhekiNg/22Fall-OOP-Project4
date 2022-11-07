@@ -66,10 +66,6 @@ int test()
 	cout << "向量：" << v << endl
 		<< "字符串：\"" << str << "\"" << endl;
 
-
-
-	cout << "向量：" << v << endl
-		<< "字符串：\"" << str << "\"" << endl;
 	return 0;
 }
 
